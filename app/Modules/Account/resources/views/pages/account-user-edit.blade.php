@@ -1,27 +1,13 @@
 @extends('layouts.admin')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-md-12">
-      <div class="nav-align-top">
-        <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-md-0 gap-2">
-          <li class="nav-item">
-            <a class="nav-link active" href="javascript:void(0);"><i class="icon-base bx bx-user icon-sm me-1_5"></i> Account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/pages-account-settings-security.html"><i class="icon-base bx bx-lock-alt icon-sm me-1_5"></i> Security</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/pages-account-settings-billing.html"><i class="icon-base bx bx-detail icon-sm me-1_5"></i> Billing & Plans</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/pages-account-settings-notifications.html"><i class="icon-base bx bx-bell icon-sm me-1_5"></i> Notifications</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/pages-account-settings-connections.html"><i class="icon-base bx bx-link-alt icon-sm me-1_5"></i> Connections</a>
-          </li>
-        </ul>
-      </div>
+      @include('Account::sections.nav-align-top')
       <div class="card mb-6">
         <!-- Account -->
         <div class="card-body">
@@ -43,123 +29,118 @@
           </div>
         </div>
         <div class="card-body pt-4">
-          <form id="formAccountSettings" method="GET" onsubmit="return false">
+          {{ html()->form()
+            ->id('formAccountSettings')
+            ->method('POST')
+            ->attribute('onsubmit', 'return false')
+            ->open() }}
+
             <div class="row g-6">
+                
               <div class="col-md-6 form-control-validation">
-                <label for="firstName" class="form-label">First Name</label>
-                <input class="form-control" type="text" id="firstName" name="firstName" value="John" autofocus />
+                {{ html()->label('Name')->for('name')->class('form-label') }}
+                {{ html()->input('text')
+                  ->id('name')
+                  ->name('name')
+                  ->class('form-control')
+                  ->attribute('value', $user->name)
+                  ->attribute('autofocus', 'autofocus') }}
               </div>
+
               <div class="col-md-6 form-control-validation">
-                <label for="lastName" class="form-label">Last Name</label>
-                <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
+                {{ html()->label('Identity')->for('identity')->class('form-label') }}
+                {{ html()->input('text')
+                  ->id('identity')
+                  ->name('identity')
+                  ->class('form-control')
+                  ->attribute('value', $user->identity)
+                  ->attribute('disabled', 'disabled') }}
               </div>
+
               <div class="col-md-6">
-                <label for="email" class="form-label">E-mail</label>
-                <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com" />
+                {{ html()->label('E-mail')->for('email')->class('form-label') }}
+                {{ html()->input('text')
+                  ->id('email')
+                  ->name('email')
+                  ->class('form-control')
+                  ->attribute('value', $user->email)
+                  ->attribute('disabled', 'disabled') }}
               </div>
+
               <div class="col-md-6">
-                <label for="organization" class="form-label">Organization</label>
-                <input type="text" class="form-control" id="organization" name="organization" value="ThemeSelection" />
+                {{ html()->label('Mobile No')->for('mobile_no')->class('form-label') }}
+                {{ html()->input('text')
+                  ->id('mobile_no')
+                  ->name('mobile_no')
+                  ->class('form-control')
+                  ->attribute('value', $user->mobile_no) }}
               </div>
+              
               <div class="col-md-6">
-                <label class="form-label" for="phoneNumber">Phone Number</label>
-                <div class="input-group input-group-merge">
-                  <span class="input-group-text">US (+1)</span>
-                  <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="202 555 0111" />
-                </div>
+                {{ html()->label('User Type')->for('user_type_code')->class('form-label') }}
+                {{ html()->select('user_type_code', $userTypes, $user->user_type_code)
+                  ->id('user_type_code')
+                  ->class('select2 form-select')
+                  ->placeholder('Select User Type')
+                  ->required()
+                  ->attribute('disabled', 'disabled')
+                }}
               </div>
+
               <div class="col-md-6">
-                <label for="address" class="form-label">Address</label>
-                <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+                {{ html()->label('Gender')->for('gender_code')->class('form-label') }}
+                {{ html()->select('gender_code', $genders, $user->gender_code)
+                  ->id('gender_code')
+                  ->class('select2 form-select')
+                  ->placeholder('Select Gender')
+                  ->required()
+                }}
               </div>
+
               <div class="col-md-6">
-                <label for="state" class="form-label">State</label>
-                <input class="form-control" type="text" id="state" name="state" placeholder="California" />
+                {{ html()->label('National ID')->for('national_id')->class('form-label') }}
+                {{ html()->input('text')
+                  ->id('national_id')
+                  ->name('national_id')
+                  ->class('form-control')
+                  ->attribute('value', $account->national_id ?? '') }}
               </div>
+
               <div class="col-md-6">
-                <label for="zipCode" class="form-label">Zip Code</label>
-                <input type="text" class="form-control" id="zipCode" name="zipCode" placeholder="231465" maxlength="6" />
+                {{ html()->label('Passport ID')->for('passport_id')->class('form-label') }}
+                {{ html()->input('text')
+                  ->id('passport_id')
+                  ->name('passport_id')
+                  ->class('form-control')
+                  ->attribute('value', $account->passport_id ?? '') }}
               </div>
+
               <div class="col-md-6">
-                <label class="form-label" for="country">Country</label>
-                <select id="country" class="select2 form-select">
-                  <option value="">Select</option>
-                  <option value="Australia">Australia</option>
-                  <option value="Bangladesh">Bangladesh</option>
-                  <option value="Belarus">Belarus</option>
-                  <option value="Brazil">Brazil</option>
-                  <option value="Canada">Canada</option>
-                  <option value="China">China</option>
-                  <option value="France">France</option>
-                  <option value="Germany">Germany</option>
-                  <option value="India">India</option>
-                  <option value="Indonesia">Indonesia</option>
-                  <option value="Israel">Israel</option>
-                  <option value="Italy">Italy</option>
-                  <option value="Japan">Japan</option>
-                  <option value="Korea">Korea, Republic of</option>
-                  <option value="Mexico">Mexico</option>
-                  <option value="Philippines">Philippines</option>
-                  <option value="Russia">Russian Federation</option>
-                  <option value="South Africa">South Africa</option>
-                  <option value="Thailand">Thailand</option>
-                  <option value="Turkey">Turkey</option>
-                  <option value="Ukraine">Ukraine</option>
-                  <option value="United Arab Emirates">United Arab Emirates</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="United States">United States</option>
-                </select>
+                {{ html()->label('Timezone')->for('timeZones')->class('form-label') }}
+                {{ html()->select()
+                  ->id('timeZones')
+                  ->name('timeZones')
+                  ->class('select2 form-select')
+                  ->options([
+                    '' => 'Select Timezone',
+                    '-12' => '(GMT-12:00) International Date Line West',
+                    '-11' => '(GMT-11:00) Midway Island, Samoa',
+                    '-10' => '(GMT-10:00) Hawaii',
+                    '-9' => '(GMT-09:00) Alaska',
+                    '-8' => '(GMT-08:00) Pacific Time (US & Canada)',
+                    '-7' => '(GMT-07:00) Arizona',
+                    '-6' => '(GMT-06:00) Central Time (US & Canada)',
+                    '-5' => '(GMT-05:00) Eastern Time (US & Canada)',
+                    '-4' => '(GMT-04:00) Atlantic Time (Canada)'
+                  ]) }}
               </div>
-              <div class="col-md-6">
-                <label for="language" class="form-label">Language</label>
-                <select id="language" class="select2 form-select">
-                  <option value="">Select Language</option>
-                  <option value="en">English</option>
-                  <option value="fr">French</option>
-                  <option value="de">German</option>
-                  <option value="pt">Portuguese</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label for="timeZones" class="form-label">Timezone</label>
-                <select id="timeZones" class="select2 form-select">
-                  <option value="">Select Timezone</option>
-                  <option value="-12">(GMT-12:00) International Date Line West</option>
-                  <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
-                  <option value="-10">(GMT-10:00) Hawaii</option>
-                  <option value="-9">(GMT-09:00) Alaska</option>
-                  <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
-                  <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
-                  <option value="-7">(GMT-07:00) Arizona</option>
-                  <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-                  <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
-                  <option value="-6">(GMT-06:00) Central America</option>
-                  <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>
-                  <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
-                  <option value="-6">(GMT-06:00) Saskatchewan</option>
-                  <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
-                  <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
-                  <option value="-5">(GMT-05:00) Indiana (East)</option>
-                  <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
-                  <option value="-4">(GMT-04:00) Caracas, La Paz</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label for="currency" class="form-label">Currency</label>
-                <select id="currency" class="select2 form-select">
-                  <option value="">Select Currency</option>
-                  <option value="usd">USD</option>
-                  <option value="euro">Euro</option>
-                  <option value="pound">Pound</option>
-                  <option value="bitcoin">Bitcoin</option>
-                </select>
-              </div>
+             
             </div>
             <div class="mt-6">
-              <button type="submit" class="btn btn-primary me-3">Save changes</button>
-              <button type="reset" class="btn btn-label-secondary">Cancel</button>
+              {{ html()->button('Save changes')->type('submit')->class('btn btn-primary me-3')->id('submitAccountForm') }}
+              {{ html()->button('Cancel')->type('reset')->class('btn btn-label-secondary') }}
             </div>
-          </form>
+          {{ html()->form()->close() }}
         </div>
         <!-- /Account -->
       </div>
@@ -183,4 +164,410 @@
       </div>
     </div>
   </div>
+@endsection
+
+@push('js')
+     <script src="{{ asset('assets/admin/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+@endpush
+
+@section('script')
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    // ========================
+    // Form Validation - Account Settings
+    // ========================
+    const accountSettingsForm = document.querySelector("#formAccountSettings");
+    let accountValidator = null;
+
+    if (accountSettingsForm) {
+        accountValidator = FormValidation.formValidation(accountSettingsForm, {
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: { message: "Please enter name" }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: { message: "Please enter email" }
+                    }
+                },
+                user_type_code: {
+                    validators: {
+                        notEmpty: { message: "Please select user type" }
+                    }
+                },
+                gender_code: {
+                    validators: {
+                        notEmpty: { message: "Please select gender" }
+                    }
+                }
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({
+                    eleValidClass: "",
+                    rowSelector: ".col-md-6, .form-control-validation"
+                }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                autoFocus: new FormValidation.plugins.AutoFocus()
+            },
+            init: validator => {
+                validator.on("plugins.message.placed", event => {
+                    if (event.element && event.element.parentElement && event.element.parentElement.classList.contains("input-group")) {
+                        event.element.parentElement.insertAdjacentElement("afterend", event.messageElement);
+                    }
+                });
+            }
+        });
+    }
+
+
+    // ========================
+    // Form Validation - Account Deactivation
+    // ========================
+    const accountDeactivationForm = document.querySelector("#formAccountDeactivation");
+    const deactivateButton = accountDeactivationForm?.querySelector(".deactivate-account");
+    const accountActivationCheckbox = document.querySelector("#accountActivation");
+
+    if (accountDeactivationForm) {
+        FormValidation.formValidation(accountDeactivationForm, {
+            fields: {
+                accountActivation: {
+                    validators: {
+                        notEmpty: {
+                            message: "Please confirm you want to delete account"
+                        }
+                    }
+                }
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({ eleValidClass: "" }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                fieldStatus: new FormValidation.plugins.FieldStatus({
+                    onStatusChanged(isValid) {
+                        if (deactivateButton) {
+                            deactivateButton.disabled = !isValid;
+                        }
+                    }
+                }),
+                autoFocus: new FormValidation.plugins.AutoFocus()
+            },
+            init: validator => {
+                validator.on("plugins.message.placed", event => {
+                    if (event.element.parentElement.classList.contains("input-group")) {
+                        event.element.parentElement.insertAdjacentElement("afterend", event.messageElement);
+                    }
+                });
+            }
+        });
+    }
+
+
+    // ========================
+    // Account Deactivation Confirmation Popup
+    // ========================
+    if (deactivateButton) {
+        deactivateButton.onclick = function () {
+            if (accountActivationCheckbox.checked) {
+                Swal.fire({
+                    text: "Are you sure you would like to deactivate your account? This action cannot be undone.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Delete",
+                    cancelButtonText: "Cancel",
+                    customClass: {
+                        confirmButton: "btn btn-danger me-2",
+                        cancelButton: "btn btn-label-secondary"
+                    },
+                    buttonsStyling: false
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        // Show processing
+                        Swal.fire({
+                            title: 'Processing...',
+                            text: 'Please wait while we delete your account',
+                            icon: 'info',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: (toast) => {
+                                Swal.showLoading()
+                            }
+                        });
+
+                        // Make AJAX request to delete account
+                        fetch("{{ route('admin.account.user.account.delete') }}", {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === true) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Account Deleted!",
+                                    text: "Your account has been successfully deleted.",
+                                    customClass: { confirmButton: "btn btn-success" },
+                                    buttonsStyling: false
+                                }).then(() => {
+                                    // Redirect to login
+                                    if (data.redirect) {
+                                        window.location.href = data.redirect;
+                                    }
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Error!",
+                                    text: data.message || "Failed to delete account",
+                                    customClass: { confirmButton: "btn btn-danger" },
+                                    buttonsStyling: false
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: "error",
+                                title: "Error!",
+                                text: "An error occurred while deleting your account",
+                                customClass: { confirmButton: "btn btn-danger" },
+                                buttonsStyling: false
+                            });
+                        });
+                    }
+                });
+            }
+        };
+    }
+
+
+    // ========================
+    // Mobile Number Formatting
+    // ========================
+    const mobileInput = document.querySelector("#mobile_no");
+
+    if (mobileInput) {
+        mobileInput.addEventListener("input", event => {
+            const input = event.target.value.replace(/\D/g, "");
+            if (input.length > 0) {
+                mobileInput.value = formatGeneral(input, {
+                    blocks: [3, 3, 4],
+                    delimiters: [" ", " "]
+                });
+            }
+        });
+    }
+
+
+    // ========================
+    // Form Submission Handler
+    // ========================
+    const submitBtn = document.querySelector("#submitAccountForm");
+
+    if (submitBtn) {
+        submitBtn.onclick = function (e) {
+            e.preventDefault();
+            if (accountValidator) {
+                // Validate the form
+                accountValidator.validate().then(status => {
+                    if (status === 'Valid') {
+                        // Show loading
+                        Swal.fire({
+                            title: 'Processing...',
+                            text: 'Please wait while we save your changes',
+                            icon: 'info',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            didOpen: (toast) => {
+                                Swal.showLoading()
+                            }
+                        });
+
+                        // Get form data
+                        const formData = new FormData(accountSettingsForm);
+
+                        // Make AJAX request
+                        fetch("{{ route('admin.account.user.profile.update') }}", {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                                'Accept': 'application/json'
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === true) {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: data.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    customClass: {
+                                        confirmButton: 'btn btn-success'
+                                    },
+                                    buttonsStyling: false
+                                }).then(() => {
+                                    // Optional: Reload page or update UI
+                                    // window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: data.message || 'An error occurred',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK',
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger'
+                                    },
+                                    buttonsStyling: false
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'An error occurred while saving your profile',
+                                icon: 'error',
+                                confirmButtonText: 'OK',
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                },
+                                buttonsStyling: false
+                            });
+                        });
+                    }
+                });
+            }
+        };
+    }
+
+
+    // ========================
+    // Avatar Upload Preview
+    // ========================
+    const avatarImg = document.getElementById("uploadedAvatar");
+    const fileInput = document.querySelector(".account-file-input");
+    const resetBtn = document.querySelector(".account-image-reset");
+
+    if (avatarImg) {
+        const originalSrc = avatarImg.src;
+
+        if (fileInput) {
+            fileInput.onchange = () => {
+                if (fileInput.files[0]) {
+                    // Show preview
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        avatarImg.src = e.target.result;
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+
+                    // Upload immediately
+                    uploadAvatar(fileInput.files[0]);
+                }
+            };
+        }
+
+        if (resetBtn) {
+            resetBtn.onclick = () => {
+                fileInput.value = "";
+                avatarImg.src = originalSrc;
+            };
+        }
+    }
+
+    // Function to upload avatar
+    function uploadAvatar(file) {
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait while we upload your avatar',
+            icon: 'info',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: (toast) => {
+                Swal.showLoading()
+            }
+        });
+
+        fetch("{{ route('admin.account.user.avatar.upload') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === true) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-success'
+                    },
+                    buttonsStyling: false
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: data.message || 'Failed to upload avatar',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An error occurred while uploading avatar',
+                icon: 'error',
+                confirmButtonText: 'OK',
+                customClass: {
+                    confirmButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+        });
+    }
+
+});
+
+
+// ========================
+// Initialize Select2
+// ========================
+$(function () {
+    const selects = $(".select2");
+
+    if (selects.length) {
+        selects.each(function () {
+            const select = $(this);
+            select.wrap('<div class="position-relative"></div>');
+            select.select2({ dropdownParent: select.parent() });
+        });
+    }
+});
+
+</script>
 @endsection

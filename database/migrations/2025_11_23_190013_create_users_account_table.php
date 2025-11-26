@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('company_id')->unsigned()->nullable();
             $table->string('national_id', 50)->nullable();
             $table->string('passport_id', 50)->nullable();
+            $table->integer('time_zone_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }
