@@ -20,6 +20,8 @@
  <script src="{{ asset('assets/admin/vendor/libs/moment/moment.js') }}"></script>
  <script src="{{ asset('assets/admin/vendor/libs/flatpickr/flatpickr.js') }}"></script>
 
+@stack('js')
+
  <!-- Main JS -->
  <script src="{{ asset('assets/admin/js/main.js') }}"></script>
 

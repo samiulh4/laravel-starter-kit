@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Exception;
 use App\Modules\User\Models\AppUser;
+use App\Models\User;
 use App\Modules\Authentication\Services\AuthService;
 
 
@@ -57,7 +58,7 @@ class AuthenticationController extends Controller
         $data = $request->validated();
 
         try {
-            $user = AppUser::where('identity', $data['identity'])->where('user_status', 1)->first();
+            $user = User::where('identity', $data['identity'])->where('user_status', 1)->first();
 
             if (!$user) {
                 return redirect()->back()->withInput()->withErrors(['error' => 'Account not found or inactive. [AUTH-2001]']);

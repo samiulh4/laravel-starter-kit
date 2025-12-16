@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\Authentication\Services;
 
-use App\Modules\FileManager\Services\FileUploadService;
+use App\Modules\FileManager\Services\FileManagerService;
 use App\Modules\User\Models\AppUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -9,9 +9,9 @@ use Exception;
 
 class AuthService
 {
-    protected FileUploadService $fileUpload;
+    protected FileManagerService $fileUpload;
 
-    public function __construct(FileUploadService $fileUpload)
+    public function __construct(FileManagerService $fileUpload)
     {
         $this->fileUpload = $fileUpload;
     }

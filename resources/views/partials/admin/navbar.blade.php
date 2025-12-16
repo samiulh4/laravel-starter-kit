@@ -460,7 +460,7 @@
                      </li>
                      <li>
                          <a class="dropdown-item"
-                             href="{{ url('/admin/auth/user/profile-edit') }}">
+                             href="{{ url('/admin/account/user/edit') }}">
                              <i class="icon-base bx bx-cog icon-md me-3"></i><span>Settings</span> </a>
                      </li>
                      <li>

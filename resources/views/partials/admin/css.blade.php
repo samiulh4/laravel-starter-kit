@@ -20,5 +20,7 @@
 <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/quill/editor.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/admin/vendor/libs/form-validation/form-validation.css') }}" />
 
+@stack('css')
+
 <!-- Page CSS -->
 {{-- <link rel="stylesheet" href="{{ asset('assets/admin/vendor/css/pages/app-calendar.css') }}" /> --}}
