@@ -14,6 +14,7 @@ use App\Modules\User\Models\AppUser;
 use App\Modules\User\Models\UserGender;
 use App\Modules\User\Models\UserType;
 use App\Modules\Account\Models\UserAccount;
+use App\Modules\FileManager\Services\FileManagerService;
 
 
 class AdminAccountUserController extends Controller
@@ -21,19 +22,16 @@ class AdminAccountUserController extends Controller
     public function accountUserEdit()
     {
         $data = [];
-        $data['user'] = Auth::user();
+        $data['user'] = AppUser::find(Auth::id());
+        $fileService = new FileManagerService();
+        $data['avatar'] = $fileService->getFileUrlById($data['user']->avatar_file_id ?? null);
         $data['account'] = UserAccount::where('user_id', $data['user']->id)->first();
         $data['userTypes'] = UserType::pluck('name', 'user_type_code');
         $data['genders'] = UserGender::pluck('name', 'gender_code');
         return view("Account::pages.account-user-edit", $data);
     }
 
-    /**
-     * Update user profile information via AJAX
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateUserProfile(Request $request)
+    public function accountUserUpdate(Request $request) :  \Illuminate\Http\JsonResponse
     {
         try {
             // Validate request data
@@ -44,7 +42,8 @@ class AdminAccountUserController extends Controller
                 //'gender_code' => 'required|string|exists:user_genders,gender_code',
                 'national_id' => 'nullable|string|max:50',
                 'passport_id' => 'nullable|string|max:50',
-                'timeZones' => 'nullable|string'
+                //'timeZones' => 'nullable|string',
+                'avatar_file_id' => 'nullable|integer'
             ]);
 
             if ($validator->fails()) {
@@ -61,7 +60,8 @@ class AdminAccountUserController extends Controller
             $user->update([
                 'name' => $request->name,
                 'mobile_no' => $request->mobile_no,
-                'gender_code' => $request->gender_code
+                'gender_code' => $request->gender_code,
+                'avatar_file_id' => $request->avatar_file_id
             ]);
 
             // Update or create user account data
@@ -110,26 +110,24 @@ class AdminAccountUserController extends Controller
                 ], 422);
             }
 
-            $user = Auth::user();
-
             if ($request->hasFile('avatar')) {
-                $file = $request->file('avatar');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('avatars', $filename, 'public');
-
-                // Delete old avatar if exists
-                if ($user->avatar) {
-                    Storage::disk('public')->delete($user->avatar);
-                }
-
-                $user->update(['avatar' => $path]);
-
-                return response()->json([
+                $fileService = new FileManagerService();
+                $imageData = [];
+                $imageData['directory'] = 'uploads/avatars';
+                $imageData['table_name'] = 'users';
+                $imageData['field_name'] = 'avatar_file_id'; 
+                $avatar_file_id = $fileService->uploadImage(
+                    $request->file('avatar'),
+                    $imageData
+                );
+                 return response()->json([
                     'status' => true,
                     'message' => 'Avatar uploaded successfully!',
-                    'avatar_url' => asset('storage/' . $path)
-                ], 200);
+                    'avatar_file_id' => $avatar_file_id
+                ], 200);  
             }
+           
+              
 
             return response()->json([
                 'status' => false,

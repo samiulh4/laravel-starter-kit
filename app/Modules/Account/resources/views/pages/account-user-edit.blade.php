@@ -9,34 +9,34 @@
     <div class="col-md-12">
       @include('Account::sections.nav-align-top')
       <div class="card mb-6">
+         {{ html()->form()
+            ->id('formAccountSettings')
+            ->method('POST')
+            ->attribute('onsubmit', 'return false')
+            ->open() }}
         <!-- Account -->
         <div class="card-body">
           <div class="d-flex align-items-start align-items-sm-center gap-6 pb-4 border-bottom">
-            <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/1.png" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
+            <img src="{{ $avatar }}" alt="user-avatar" class="d-block w-px-100 h-px-100 rounded" id="uploadedAvatar" />
             <div class="button-wrapper">
               <label for="upload" class="btn btn-primary me-3 mb-4" tabindex="0">
                 <span class="d-none d-sm-block">Upload new photo</span>
                 <i class="icon-base bx bx-upload d-block d-sm-none"></i>
                 <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
+                <input type="hidden" name="avatar_file_id" value="{{ $user->avatar_file_id }}" id="avatar_file_id"/>
               </label>
               <button type="button" class="btn btn-label-secondary account-image-reset mb-4">
                 <i class="icon-base bx bx-reset d-block d-sm-none"></i>
                 <span class="d-none d-sm-block">Reset</span>
               </button>
-
               <div>Allowed JPG, GIF or PNG. Max size of 800K</div>
             </div>
           </div>
         </div>
+        <!-- ./card-body-->
         <div class="card-body pt-4">
-          {{ html()->form()
-            ->id('formAccountSettings')
-            ->method('POST')
-            ->attribute('onsubmit', 'return false')
-            ->open() }}
-
             <div class="row g-6">
-                
+
               <div class="col-md-6 form-control-validation">
                 {{ html()->label('Name')->for('name')->class('form-label') }}
                 {{ html()->input('text')
@@ -140,10 +140,12 @@
               {{ html()->button('Save changes')->type('submit')->class('btn btn-primary me-3')->id('submitAccountForm') }}
               {{ html()->button('Cancel')->type('reset')->class('btn btn-label-secondary') }}
             </div>
-          {{ html()->form()->close() }}
         </div>
+        <!-- ./card-body-->
+        {{ html()->form()->close() }}
         <!-- /Account -->
       </div>
+      
       <div class="card">
         <h5 class="card-header">Delete Account</h5>
         <div class="card-body">
@@ -395,7 +397,7 @@
                         const formData = new FormData(accountSettingsForm);
 
                         // Make AJAX request
-                        fetch("{{ route('admin.account.user.profile.update') }}", {
+                        fetch("{{ route('admin.account.user.update') }}", {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
@@ -513,6 +515,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === true) {
+                $('#avatar_file_id').val(data.avatar_file_id);
                 Swal.fire({
                     title: 'Success!',
                     text: data.message,

@@ -8,7 +8,7 @@ use Exception;
 use App\Modules\FileManager\Models\FileUpload;
 use Intervention\Image\Laravel\Facades\Image;
 
-class FileUploadService
+class FileManagerService
 {
     public function uploadImage(
         UploadedFile $file,
@@ -38,13 +38,38 @@ class FileUploadService
 
             return $fileUpload->id;
         } catch (Exception $e) {
-            Log::error('Exception occurred [FFUI-101]', [
+            Log::error('Exception occurred [FMS-1001]', [
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
             ]);
             return null;
+        }
+    }
+
+    public function getFileUrlById(int|null $fileId): string
+    {
+        try {
+            if ($fileId === null) {
+                throw new Exception("File ID cannot be null.");
+            }
+
+            $fileUpload = FileUpload::find($fileId);
+
+            if (!$fileUpload) {
+                throw new Exception("File not found.");
+            }
+
+            return asset($fileUpload->file_path);
+        } catch (Exception $e) {
+            Log::error('Exception occurred [FFUI-102]', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'fileId' => $fileId,
+            ]);
+            return asset('assets/img/no-image-available.png');
         }
     }
 }
