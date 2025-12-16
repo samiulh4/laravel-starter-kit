@@ -1,1 +1,4 @@
-<h1>Blog Module Loaded Successfully!</h1>
+@extends('layouts.web')
+
+@section('content')
+@endsection
