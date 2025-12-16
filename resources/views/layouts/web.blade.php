@@ -17,25 +17,12 @@
     @include('partials.web.css')
 </head>
 
-<body class="starter-page-page">
+<body class="index-page">
 
     @include('partials.web.header')
 
     <main class="main">
-        @include('partials.web.hero')
-        @include('partials.web.about')
-        @include('partials.web.features')
-        @include('partials.web.features-cards')
-        @include('partials.web.features-2')
-        @include('partials.web.call-to-action')
-        @include('partials.web.clients')
-        @include('partials.web.testimonials')
-        @include('partials.web.stats')
-        @include('partials.web.services')
-        @include('partials.web.pricing')
-        @include('partials.web.faq')
-        @include('partials.web.call-to-action-2')
-        @include('partials.web.contact')
+        @yield('content')
     </main>
 
     @include('partials.web.footer')
