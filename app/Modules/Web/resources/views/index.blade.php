@@ -1,4 +1,18 @@
 @extends('layouts.web')
 
 @section('content')
+    @include('partials.web.hero')
+    @include('partials.web.about')
+    @include('partials.web.features')
+    @include('partials.web.features-cards')
+    @include('partials.web.features-2')
+    @include('partials.web.call-to-action')
+    @include('partials.web.clients')
+    @include('partials.web.testimonials')
+    @include('partials.web.stats')
+    @include('partials.web.services')
+    @include('partials.web.pricing')
+    @include('partials.web.faq')
+    @include('partials.web.call-to-action-2')
+    @include('partials.web.contact')
 @endsection
