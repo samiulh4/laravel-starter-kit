@@ -1,6 +1,5 @@
 @extends('layouts.web')
 
-
 @section('style')
     <style>
         main {
