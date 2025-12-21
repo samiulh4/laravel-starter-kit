@@ -15,6 +15,7 @@
     <link href="{{ asset('assets/web/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
     @include('partials.web.css')
+    @yield('style')
 </head>
 
 <body class="index-page">
@@ -32,7 +33,7 @@
             class="bi bi-arrow-up-short"></i></a>
 
     @include('partials.web.js')
-
+    @yield('script')
 </body>
 
 </html>

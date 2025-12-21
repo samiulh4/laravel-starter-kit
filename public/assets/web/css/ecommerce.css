@@ -1,0 +1,227 @@
+/**
+* Ecommerce Module Styles
+* Featured Section & Product Styling
+*/
+
+/*--------------------------------------------------------------
+# Featured Section
+--------------------------------------------------------------*/
+.featured-image-container {
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3f9ff 0%, #e8f4fd 100%);
+}
+
+.featured-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.featured-image-container:hover .featured-image {
+  transform: scale(1.05);
+}
+
+/*--------------------------------------------------------------
+# Featured Product Section
+--------------------------------------------------------------*/
+#featuredProduct {
+  margin-top: 20px;
+}
+
+#featuredProduct h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.2;
+}
+
+#featuredProduct .lead {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #555;
+}
+
+/*--------------------------------------------------------------
+# Responsive Design
+--------------------------------------------------------------*/
+@media (max-width: 768px) {
+  .featured-image-container {
+    height: 250px;
+    margin-top: 30px;
+  }
+  
+  #featuredProduct .row {
+    flex-direction: column-reverse;
+  }
+  
+  #featuredProduct h1 {
+    font-size: 2rem;
+  }
+  
+  #featuredProduct .lead {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured-image-container {
+    height: 200px;
+  }
+  
+  #featuredProduct h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  #featuredProduct .lead {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/*--------------------------------------------------------------
+# Product Card Styling
+--------------------------------------------------------------*/
+.product-card {
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  border-color: #0d83fd;
+}
+
+.product-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.08);
+}
+
+.product-card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.product-card-title {
+  font-weight: 600;
+  color: #2d465e;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.product-card-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0d83fd;
+  margin: 0.5rem 0;
+}
+
+.product-card-description {
+  font-size: 0.9rem;
+  color: #666;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+/*--------------------------------------------------------------
+# Features Section
+--------------------------------------------------------------*/
+.features-section {
+  background: linear-gradient(135deg, #f3f9ff 0%, #ffffff 100%);
+}
+
+.feature-box {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: #fff;
+  margin: 0.5rem;
+}
+
+.feature-box:hover {
+  box-shadow: 0 8px 20px rgba(13, 131, 253, 0.15);
+  transform: translateY(-4px);
+}
+
+.feature-box i {
+  color: #0d83fd;
+  margin-bottom: 1rem;
+}
+
+.feature-box h5 {
+  font-weight: 600;
+  color: #2d465e;
+  margin-bottom: 0.5rem;
+}
+
+.feature-box p {
+  color: #888;
+  margin: 0;
+}
+
+/*--------------------------------------------------------------
+# Buttons
+--------------------------------------------------------------*/
+.btn-primary {
+  background-color: #0d83fd;
+  border-color: #0d83fd;
+  border-radius: 50px;
+  padding: 0.75rem 2.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0a6dd0;
+  border-color: #0a6dd0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 131, 253, 0.3);
+}
+
+.btn-outline-primary {
+  color: #0d83fd;
+  border: 2px solid #0d83fd;
+  border-radius: 50px;
+  padding: 0.75rem 2.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d83fd;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(13, 131, 253, 0.3);
+}
+
+/*--------------------------------------------------------------
+# Sections Spacing
+--------------------------------------------------------------*/
+section {
+  scroll-margin-top: 90px;
+}
+
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 70px;
+  }
+}

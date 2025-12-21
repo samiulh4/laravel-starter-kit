@@ -12,3 +12,4 @@
 
   <!-- Main CSS File -->
   <link href="{{ asset('assets/web/css/main.css') }}" rel="stylesheet">
+  
