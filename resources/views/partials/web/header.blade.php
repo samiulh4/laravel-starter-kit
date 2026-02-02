@@ -20,7 +20,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li>
-                        <a class="dropdown-item" href="{{ url('profile.show') ?? '#' }}">
+                        <a class="dropdown-item" href="{{ url('/auth/user/profile-view') }}">
                             <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
                         </a>
                     </li>
